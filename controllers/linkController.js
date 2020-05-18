@@ -1,28 +1,30 @@
-const Need = require('../models/Need');
+const mongoose = require('mongoose');
+
+const Link = require('../models/Link');
+
 const Item = require('../models/Item');
+const Need = require('../models/Need');
+const Tier = require('../models/Tier')
 
-// create a mongo query that links items to needs by category id
+const itemId = '5ec2ba4fcf745a352f7bdacb'
 
-async function getLinks() {
-	const links = await Need.aggregate([
-		{
-			$lookup: {
-				from: 'Item',
-				localField: 'category',
-				foreignField: 'category',
-				as: 'link',
-			},
-		},
-	]);
-	console.log(await links);
-	return Promise.all(await links);
-}
+Link.find({ item: itemId }).populate({
+  path: 'need',
+  model: 'Need',
+  populate: {
+    path: 'tier',
+    model: 'Tier'
+  }
+}).then((data) => {
+	data.forEach((item) => {
+		// console.log(item.need.tier);
+		let tier = item.need.tier;
+		Item.find({ tier: tier}).then((data) => {
+			console.log(data);
+			
+		})
+	})
+	
+})
 
-console.log(getLinks());
-
-// { '$lookup': {
-//   'from': AuditTask.collection.name,
-//   'localField': '_id',
-//   'foreignField': 'checklist_id',
-//   'as': 'TaskData'
-// }}
+const goalUser = '5ec2b92dcf745a352f7bdac8'
