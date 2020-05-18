@@ -4,6 +4,14 @@ const router = express.Router();
 const Need = require('../models/Need');
 const Item = require('../models/Item');
 const Link = require('../models/Link');
+const Tier = require('../models/Tier');
+
+router.get('/:userId', (req, res) => {
+	Tier.findById(req.params.userId).then(tier => {
+		res.json(tier)
+	}) 
+});
+
 
 router.post('/item/:id/:categoryId', (req, res) => {
 	const newItem = req.body;
