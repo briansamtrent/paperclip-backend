@@ -49,4 +49,12 @@ router.post('/:id/', (req, res) => {
 	});
 });
 
+router.delete('/:id', (req, res, next) => {
+	User.findOneAndDelete({ _id: req.params.id })
+		.then((users) => {
+			res.json(users);
+		})
+		.catch(next);
+});
+
 module.exports = router;
