@@ -9,4 +9,12 @@ router.get('/', (req, res) => {
 	});
 });
 
+router.delete('/:id', (req, res, next) => {
+	Item.findOneAndDelete({ _id: req.params.id })
+		.then((items) => {
+			res.json(items);
+		})
+		.catch(next);
+});
+
 module.exports = router;
