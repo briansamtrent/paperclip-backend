@@ -22,6 +22,12 @@ app.use('/api/need', needController);
 const tierController = require('./controllers/tierController');
 app.use('/api/tier', tierController);
 
+const linkController = require('./controllers/linkController');
+app.use('/api/link', linkController);
+
+const cycleController = require('./controllers/cycleController');
+app.use('/api/cycle', cycleController);
+
 app.set('port', process.env.PORT || 8080);
 
 app.listen(app.get('port'), () => {

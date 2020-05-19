@@ -6,7 +6,7 @@ const User = require('../models/User');
 const Tier = require('../models/Tier');
 
 router.get('/:id/tier', (req, res) => {
-	Tier.findOne({ user: req.params.id }).then((tiers) => {
+	Tier.find({ user: req.params.id }).then((tiers) => {
 		res.json(tiers);
 	});
 });
