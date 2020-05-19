@@ -7,11 +7,10 @@ const Link = require('../models/Link');
 const Tier = require('../models/Tier');
 
 router.get('/:userId', (req, res) => {
-	Tier.findById(req.params.userId).then(tier => {
-		res.json(tier)
-	}) 
+	Tier.find({ user: req.params.userId }).then((tier) => {
+		res.json(tier);
+	});
 });
-
 
 router.post('/item/:id/:categoryId', (req, res) => {
 	const newItem = req.body;

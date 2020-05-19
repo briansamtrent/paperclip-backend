@@ -5,9 +5,9 @@ const TierSchema = new mongoose.Schema({
 	user: {
 		ref: 'User',
 		type: mongoose.Schema.Types.ObjectId,
-		autopopulate: true
 	},
 });
+
 TierSchema.plugin(require('mongoose-autopopulate'));
 
 const Tier = mongoose.model('Tier', TierSchema);
