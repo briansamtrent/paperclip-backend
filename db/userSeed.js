@@ -6,6 +6,7 @@ const Link = require('../models/Link');
 const Item = require('../models/Item');
 const Need = require('../models/Need');
 const Tier = require('../models/Tier');
+const Cycle = require('../models/Cycle');
 
 async function loadUsers() {
 	const userIds = users.map(async (user) => {
@@ -36,3 +37,4 @@ Tier.deleteMany().catch(console.error);
 Item.deleteMany().catch(console.error);
 Need.deleteMany().catch(console.error);
 Link.deleteMany().catch(console.error);
+Cycle.deleteMany().catch(console.error);

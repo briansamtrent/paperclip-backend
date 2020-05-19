@@ -38,11 +38,6 @@ router.post('/item/:id/:categoryId', (req, res) => {
 				})
 			);
 		});
-
-	// get every Need with the same category as the item
-
-	// create a pair object with the item Id and the Need Id
-	// where not existing already, create Link document with the item Id and the Need Id
 });
 
 router.post('/need/:id/:categoryId', (req, res) => {
@@ -70,10 +65,6 @@ router.post('/need/:id/:categoryId', (req, res) => {
 				})
 			);
 		});
-
-	// get every Item with the same category as the Need
-	// create a pair object with the item Id and the Need Id
-	// where not existing already, create Link document with the item Id and the Need Id
 });
 
 router.delete('/:id', (req, res, next) => {

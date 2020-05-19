@@ -1,6 +1,7 @@
 const Link = require('../models/Link');
 const Tier = require('../models/Tier');
 const Need = require('../models/Need');
+const Cycle = require('../models/Cycle');
 
 var search = require('./cycleSearch.js');
 
@@ -24,9 +25,21 @@ router.patch('/:linkId/confirm', async (req, res) => {
 	if (req.body.confirmation == 1) {
 		console.log('item: ', link.item._id);
 		console.log('user: ', link.item.tier.user);
-		console.log(
-			await search.data.cycleSearch(link.item.tier.user, link.item._id)
+		const cycles = await search.data.cycleSearch(
+			link.item.tier.user,
+			link.item._id
 		);
+		if (cycles) {
+			Cycle.create({ links: cycles }).then((newCycle) => {
+				Link.find({ _id: { $in: cycles } }).then((links) => {
+					links.forEach(async (link) => {
+						link.cycle = newCycle.id;
+						await link.save();
+						console.log(link);
+					});
+				});
+			});
+		}
 	}
 	res.json(link);
 });

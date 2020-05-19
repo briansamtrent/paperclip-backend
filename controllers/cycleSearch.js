@@ -5,7 +5,6 @@ const Item = require('../models/Item');
 let cyclesFound = [];
 
 async function cycleTiers(goalUserId, currentTierId, path, link) {
-	console.log('go tiers');
 	path += `:${link}`;
 	const items = await Item.find({ tier: currentTierId });
 
@@ -18,28 +17,25 @@ async function cycleTiers(goalUserId, currentTierId, path, link) {
 }
 
 async function cycleItems(goalUserId, currentItemId, path) {
-	console.log('go items');
-	const links = await Link.find({ item: currentItemId, confirmed: 1 }).populate(
-		{
-			path: 'need',
-			model: 'Need',
-			populate: {
-				path: 'tier',
-				model: 'Tier',
-			},
-		}
-	);
+	const links = await Link.find({
+		item: currentItemId,
+		confirmed: 1,
+		cycle: undefined,
+	}).populate({
+		path: 'need',
+		model: 'Need',
+		populate: {
+			path: 'tier',
+			model: 'Tier',
+		},
+	});
 
 	const linkData = await links.map((link) => {
-		console.log(
-			goalUserId + ' ' + link.need.tier.user,
-			goalUserId == String(link.need.tier.user)
-		);
 		if (String(link.need.tier.user) != goalUserId) {
 			// console.log('Next tier: ', link.need.tier._id);
 			return cycleTiers(goalUserId, link.need.tier._id, path, link._id);
 		} else if (String(link.need.tier.user) == goalUserId) {
-			console.log('cycle found');
+			// console.log('cycle found');
 			cyclesFound.push(path + ':' + link._id);
 			return path;
 		}
@@ -52,7 +48,16 @@ var methods = {
 	cycleSearch: async function (goalUserId, startItemId) {
 		cyclesFound = [];
 		await cycleItems(goalUserId, startItemId, '');
-		return cyclesFound;
+		console.log(cyclesFound);
+		if (cyclesFound.length) {
+			const selectedCycle = cyclesFound
+				.sort((a, b) => b.length - a.length)[0] // favor long cycles
+				.split(':');
+			selectedCycle.splice(0, 1); // lose the leading empty ''
+			return selectedCycle;
+		} else {
+			return 0;
+		}
 	},
 
 	sayHi: function () {
