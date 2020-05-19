@@ -1,28 +1,44 @@
-const Need = require('../models/Need');
+const mongoose = require('mongoose');
+const Link = require('../models/Link');
 const Item = require('../models/Item');
+const Need = require('../models/Need');
+const Tier = require('../models/Tier');
+const User = require('../models/User');
 
-// create a mongo query that links items to needs by category id
+let itemId = '5ec2d63f2a4618598d630476';
+itemId = '5ec2d7252a4618598d63047d'; //Akrom's rice
+const goalUser = '5ec2d5692a4618598d63046b';
 
-async function getLinks() {
-	const links = await Need.aggregate([
-		{
-			$lookup: {
-				from: 'Item',
-				localField: 'category',
-				foreignField: 'category',
-				as: 'link',
+async function cycleLinks(goalUserId, currentItemId) {
+	console.log('searching:', currentItemId);
+	await Link.find({ item: currentItemId })
+		.populate({
+			path: 'need',
+			model: 'Need',
+			populate: {
+				path: 'tier',
+				model: 'Tier',
 			},
-		},
-	]);
-	console.log(await links);
-	return Promise.all(await links);
+		})
+		.then((itemNeedMatch) => {
+			//Look at every need attached to this item
+			itemNeedMatch.forEach((matchedNeed) => {
+				console.log('matchedNeed:', matchedNeed.item.tier);
+				// console.log(item);
+				if (matchedNeed.item.tier.user._id != goalUserId) {
+					let tier = matchedNeed.need.tier;
+					Item.find({ tier: tier }).then((itemMatchTier) => {
+						console.log(itemMatchTier);
+						itemMatchTier.forEach((item) => {
+							cycleLinks(goalUser, item._id);
+						});
+						// cycleLinks(goalUser, data._id)
+					});
+				} else{
+					console.log('cycle found')
+				}
+			});
+		});
 }
 
-console.log(getLinks());
-
-// { '$lookup': {
-//   'from': AuditTask.collection.name,
-//   'localField': '_id',
-//   'foreignField': 'checklist_id',
-//   'as': 'TaskData'
-// }}
+cycleLinks(goalUser, itemId);
