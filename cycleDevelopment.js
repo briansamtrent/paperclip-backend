@@ -6,13 +6,13 @@ const Tier = require('./models/Tier');
 const User = require('./models/User');
 
 let itemId = '5ec2d63f2a4618598d630476';
-itemId = '5ec3fc069472d5fc2ceb566c'; //Rachel's Bread
-const goalUser = '5ec3fc029472d5fc2ceb5659';
-let cyclesFound = [[]];
+itemId = '5ec40c0b29a2bc04d468b8fd'; //Rachel's Bread
+const goalUser = '5ec40c0329a2bc04d468b8e9';
+let cyclesFound = [];
 
-async function cycleLinks(goalUserId, currentItemId) {
-	console.log('searching:', currentItemId);
-	await Link.find({ item: currentItemId })
+function cycleLinks(goalUserId, currentItemId, cyclesTracker, linkId) {
+	cyclesTracker.push(linkId);
+	Link.find({ item: currentItemId })
 		.populate({
 			path: 'need',
 			model: 'Need',
@@ -23,39 +23,30 @@ async function cycleLinks(goalUserId, currentItemId) {
 		})
 		.then((links) => {
 			//Look at every need attached to this item
-			console.log(links.length);
-			if (links.length === 0) {
-				// this is a node with no children
-				cyclesFound[0].pop();
-				console.log('this is a node with no children so we POP', cyclesFound);
-			}
-			links.forEach((link) => {
-				cyclesFound[0].push(link._id);
-				console.log('this is a new node so we PUSH it', cyclesFound, link._id);
-				console.log('link:', link);
-				// console.log(item);
-				// console.log(cyclesFound);
+			links.map((link) => {
 				console.log(
-					'user with need:',
-					link.need.tier.user,
-					link.need.tier.user === goalUserId
+					'link:',
+					link._id,
+					`${link.item.tier.user} -> ${link.item.description} -> ${link.need.tier.user}`
 				);
+				console.log(cyclesTracker);
 				if (link.need.tier.user != goalUserId) {
 					let tier = link.need.tier;
 					Item.find({ tier: tier }).then((itemMatchTier) => {
-						console.log(itemMatchTier);
 						itemMatchTier.forEach((item) => {
-							cycleLinks(goalUserId, item._id);
+							cycleLinks(goalUserId, item._id, [...cyclesTracker], link._id);
 						});
-						// cycleLinks(goalUser, data._id)
 					});
-				} else if (link.need.tier.user === goalUserId) {
+				} else if (link.need.tier.user == goalUserId) {
+					cyclesTracker.push(link._id);
 					console.log('cycle found');
-					// found a cycle so store the traverse record by unshifting it down the history array
-					cyclesFound.unshift([]);
 				}
 			});
 		});
 }
 
-cycleLinks(goalUser, itemId);
+async function kickIt() {
+	console.log(await cycleLinks(goalUser, itemId, [...cyclesFound], ''));
+}
+
+kickIt();

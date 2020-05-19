@@ -7,11 +7,11 @@
 		"description": "some bread"
 	},
 	{
-		"userName": "RachelWise",
-		"rank": 2,
-		"category": "Rice",
+		"userName": "MarisaMcknight",
+		"rank": 1,
+		"category": "Chilled pot dessert",
 		"picture": "pic",
-		"description": "some rice"
+		"description": "Yummy Chilled pot dessert"
 	},
 	{
 		"userName": "LennoxKirby",
@@ -21,39 +21,11 @@
 		"description": "some flour"
 	},
 	{
-		"userName": "LennoxKirby",
-		"rank": 2,
-		"category": "Pasta",
-		"picture": "pic",
-		"description": "some past"
-	},
-	{
 		"userName": "AkramHendricks",
 		"rank": 1,
 		"category": "Crackers",
 		"picture": "pic",
 		"description": "some crackers"
-	},
-	{
-		"userName": "AkramHendricks",
-		"rank": 2,
-		"category": "Doughnuts",
-		"picture": "pic",
-		"description": "some doughnuts"
-	},
-	{
-		"userName": "MarisaMcknight",
-		"rank": 1,
-		"category": "Chilled pot dessert",
-		"picture": "pic",
-		"description": "Yummy Chilled pot dessert"
-	},
-	{
-		"userName": "KobieTillman",
-		"rank": 1,
-		"category": "Acoustic guitar",
-		"picture": "pic",
-		"description": "guitar"
 	},
 	{
 		"userName": "KamilaHumphries",

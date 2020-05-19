@@ -1,28 +1,8 @@
 [
 	{
-		"userName": "RachelWise",
-		"rank": 1,
-		"category": "Crackers"
-	},
-	{
 		"userName": "LennoxKirby",
 		"rank": 1,
 		"category": "Garlic bread"
-	},
-	{
-		"userName": "LennoxKirby",
-		"rank": 2,
-		"category": "Rice"
-	},
-	{
-		"userName": "AkramHendricks",
-		"rank": 1,
-		"category": "Flour"
-	},
-	{
-		"userName": "AkramHendricks",
-		"rank": 2,
-		"category": "Pasta"
 	},
 	{
 		"userName": "MarisaMcknight",
@@ -35,8 +15,23 @@
 		"category": "Chilled pot dessert"
 	},
 	{
-		"userName": "KamilaHumphries",
+		"userName": "AkramHendricks",
 		"rank": 1,
 		"category": "Flour"
+	},
+	{
+		"userName": "KamilaHumphries",
+		"rank": 1,
+		"category": "Crackers"
+	},
+	{
+		"userName": "RachelWise",
+		"rank": 1,
+		"category": "Reference books"
+	},
+	{
+		"userName": "RachelWise",
+		"rank": 1,
+		"category": "Chilled pot dessert"
 	}
 ]
