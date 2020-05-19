@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
-var search = require('../cycleDevelopment2');
 
 const Need = require('../models/Need');
 const Item = require('../models/Item');
 const Link = require('../models/Link');
 const Tier = require('../models/Tier');
-
 
 router.get('/:userId', (req, res) => {
 	console.log(search.data.sayHi());

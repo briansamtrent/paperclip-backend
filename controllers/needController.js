@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Need = require('../models/Need');
+const Tier = require('../models/User');
 
 router.get('/', (req, res) => {
 	Need.find().then((allNeeds) => {
