@@ -43,24 +43,32 @@ function loadItems(data) {
 			description: el.description,
 		};
 		let loadItemUrl = `${tierUrl}/item/${el.tierId}/${el.categoryId}`;
-		console.log(loadItemUrl);
-		console.log(body);
+		// console.log(loadItemUrl);
+		let bodyJSON = JSON.stringify(body);
 		fetch(loadItemUrl, {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json; charset=UTF-8',
 			},
-			body: JSON.stringify(body),
-		}).catch((err) => console.log(err));
+			body: bodyJSON,
+		})
+			.then((response) => response.json())
+			.then((data) => console.log(data))
+			.catch((err) => console.log(err));
 	});
 }
 
 async function setItems() {
 	Item.deleteMany()
-		.then(loadItems(await gatherItems()))
+		.then(await loadItems(await gatherItems()))
 		.then(console.log)
-		.catch(console.error)
-		.finally(process.exit);
+		.catch(console.error);
+	// .finally(process.exit);
 }
 
 setItems();
+
+setTimeout(() => {
+	process.exit();
+}, 1000);
+// setItems();

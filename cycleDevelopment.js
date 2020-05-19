@@ -6,8 +6,8 @@ const Tier = require('./models/Tier');
 const User = require('./models/User');
 
 let itemId = '5ec2d63f2a4618598d630476';
-itemId = '5ec3beaa187252e38643f92f'; //Rachel's Bread
-const goalUser = '5ec3be74187252e38643f91f';
+itemId = '5ec3fc069472d5fc2ceb566c'; //Rachel's Bread
+const goalUser = '5ec3fc029472d5fc2ceb5659';
 let cyclesFound = [[]];
 
 async function cycleLinks(goalUserId, currentItemId) {

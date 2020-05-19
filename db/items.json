@@ -40,5 +40,26 @@
 		"category": "Doughnuts",
 		"picture": "pic",
 		"description": "some doughnuts"
+	},
+	{
+		"userName": "MarisaMcknight",
+		"rank": 1,
+		"category": "Chilled pot dessert",
+		"picture": "pic",
+		"description": "Yummy Chilled pot dessert"
+	},
+	{
+		"userName": "KobieTillman",
+		"rank": 1,
+		"category": "Acoustic guitar",
+		"picture": "pic",
+		"description": "guitar"
+	},
+	{
+		"userName": "KamilaHumphries",
+		"rank": 1,
+		"category": "Reference books",
+		"picture": "pic",
+		"description": "reference books"
 	}
 ]

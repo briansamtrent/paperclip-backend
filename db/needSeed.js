@@ -36,13 +36,14 @@ async function gatherItems() {
 function loadItems(data) {
 	data.forEach((el) => {
 		let loadItemUrl = `${tierUrl}/need/${el.tierId}/${el.categoryId}`;
-		console.log(loadItemUrl);
 		fetch(loadItemUrl, {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json; charset=UTF-8',
 			},
-		}).catch((err) => console.log(err));
+		})
+			.then(async (response) => await response.json())
+			.catch((err) => console.log(err));
 	});
 }
 
@@ -50,8 +51,12 @@ async function setItems() {
 	Need.deleteMany()
 		.then(loadItems(await gatherItems()))
 		.then(console.log)
-		.catch(console.error)
-		.finally(process.exit);
+		.catch(console.error);
+	// .finally(process.exit);
 }
 
 setItems();
+
+setTimeout(() => {
+	process.exit();
+}, 1000);
