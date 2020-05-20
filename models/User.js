@@ -5,6 +5,12 @@ const UserSchema = new mongoose.Schema({
 	userName: String,
 	password: String,
 	created: { type: Date, default: Date.now },
+	cycle: [
+		{
+			ref: 'Cycle',
+			type: mongoose.Schema.Types.ObjectId,
+		},
+	],
 });
 
 const User = mongoose.model('User', UserSchema);

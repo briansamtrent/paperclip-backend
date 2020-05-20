@@ -18,7 +18,7 @@ async function cycleItems(goalUserId, currentTierId, path, link) {
 }
 
 async function cycleTiers(goalUserId, currentUserId, rank, path, link) {
-	// gte rank is bc user will give away an item less valuable than the one they're gaining
+	// gte rank is bc user is happy to give away an item less valuable than the one they're gaining
 	const tiers = await Tier.find({
 		user: currentUserId,
 		rank: {

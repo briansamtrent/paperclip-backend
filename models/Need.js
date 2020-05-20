@@ -7,6 +7,10 @@ const NeedSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		autopopulate: true,
 	},
+	cycle: {
+		ref: 'Cycle',
+		type: mongoose.Schema.Types.ObjectId,
+	},
 });
 
 NeedSchema.plugin(require('mongoose-autopopulate'));

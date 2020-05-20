@@ -2,6 +2,30 @@ const express = require('express');
 const router = express.Router();
 
 const Item = require('../models/Item');
+const User = require('../models/User');
+const Tier = require('../models/Tier');
+
+router.get('/:userId', (req, res) => {
+	User.findById(req.params.userId).then((user) => {
+		Tier.find({ user: user._id }).then((tiers) => {
+			Item.find({ tier: { $in: tiers }, cycle: undefined }).then((items) => {
+				res.json(items);
+			});
+		});
+	});
+});
+
+router.get('/:userId/cycle', (req, res) => {
+	User.findById(req.params.userId).then((user) => {
+		Tier.find({ user: user._id }).then((tiers) => {
+			Item.find({ tier: { $in: tiers }, cycle: { $exists: true } }).then(
+				(items) => {
+					res.json(items);
+				}
+			);
+		});
+	});
+});
 
 router.get('/', (req, res) => {
 	Item.find().then((allItems) => {
