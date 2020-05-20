@@ -11,15 +11,21 @@ router.get('/:id/tier', (req, res) => {
 	});
 });
 
+router.get('/:userName/name', (req, res) => {
+	const userName = req.params.userName;
+	User.findOne({ userName: userName }).then((user) => {
+		res.json(user);
+	});
+});
+
 router.get('/', (req, res) => {
 	User.find().then((allUsers) => {
 		res.json(allUsers);
 	});
 });
 
-router.get('/:userName', (req, res) => {
-	const userName = req.params.userName;
-	User.findOne({ userName: userName }).then((user) => {
+router.get('/:userId', (req, res) => {
+	User.findById(req.params.userId).then((user) => {
 		res.json(user);
 	});
 });

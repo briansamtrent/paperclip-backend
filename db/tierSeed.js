@@ -7,7 +7,7 @@ const Tier = require('../models/Tier');
 async function loadTiers() {
 	// first go through each tier upload and insert the userId
 	const userIds = tiers.map(async (tier) => {
-		const getUserIdUrl = `${userUrl}/${tier.userName}`;
+		const getUserIdUrl = `${userUrl}/${tier.userName}/name`;
 
 		const response = await fetch(getUserIdUrl, {
 			method: 'GET',

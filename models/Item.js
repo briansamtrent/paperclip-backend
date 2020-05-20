@@ -12,6 +12,10 @@ const ItemSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		autopopulate: true,
 	},
+	cycle: {
+		ref: 'Cycle',
+		type: mongoose.Schema.Types.ObjectId,
+	},
 });
 ItemSchema.plugin(require('mongoose-autopopulate'));
 
