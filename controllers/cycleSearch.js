@@ -1,26 +1,43 @@
 const mongoose = require('mongoose');
 const Link = require('../models/Link');
 const Item = require('../models/Item');
+const Tier = require('../models/Tier');
 
 let cyclesFound = [];
 
-async function cycleTiers(goalUserId, currentTierId, path, link) {
+async function cycleItems(goalUserId, currentTierId, path, link) {
 	path += `:${link}`;
 	const items = await Item.find({ tier: currentTierId });
 
 	const itemData = await items.map((item) => {
 		// console.log('Next item: ', item._id);
-		return cycleItems(goalUserId, item._id, path);
+		return cycleLinks(goalUserId, item._id, path);
 	});
 
 	return Promise.all(await itemData);
 }
 
-async function cycleItems(goalUserId, currentItemId, path) {
+async function cycleTiers(goalUserId, currentUserId, rank, path, link) {
+	// gte rank is bc user will give away an item less valuable than the one they're gaining
+	const tiers = await Tier.find({
+		user: currentUserId,
+		rank: {
+			$gte: rank,
+		},
+	});
+
+	const tierData = await tiers.map((tier) => {
+		return cycleItems(goalUserId, tier._id, path, link._id);
+	});
+
+	return Promise.all(await tierData);
+}
+
+async function cycleLinks(goalUserId, currentItemId, path) {
 	const links = await Link.find({
 		item: currentItemId,
-		confirmed: 1,
-		cycle: undefined,
+		confirmed: 1, // only confirmed trades available for cycling
+		cycle: undefined, // only trades not currently assigned a cycle
 	}).populate({
 		path: 'need',
 		model: 'Need',
@@ -31,9 +48,16 @@ async function cycleItems(goalUserId, currentItemId, path) {
 	});
 
 	const linkData = await links.map((link) => {
+		// look for all tiers on the user
+
 		if (String(link.need.tier.user) != goalUserId) {
-			// console.log('Next tier: ', link.need.tier._id);
-			return cycleTiers(goalUserId, link.need.tier._id, path, link._id);
+			return cycleTiers(
+				goalUserId,
+				link.need.tier.user,
+				link.need.tier.rank,
+				path,
+				link._id
+			);
 		} else if (String(link.need.tier.user) == goalUserId) {
 			// console.log('cycle found');
 			cyclesFound.push(path + ':' + link._id);
@@ -47,7 +71,7 @@ async function cycleItems(goalUserId, currentItemId, path) {
 var methods = {
 	cycleSearch: async function (goalUserId, startItemId) {
 		cyclesFound = [];
-		await cycleItems(goalUserId, startItemId, '');
+		await cycleLinks(goalUserId, startItemId, '');
 		console.log(cyclesFound);
 		if (cyclesFound.length) {
 			const selectedCycle = cyclesFound
@@ -61,7 +85,7 @@ var methods = {
 	},
 
 	sayHi: function () {
-		return 'hi';
+		return 'Hi';
 	},
 };
 
