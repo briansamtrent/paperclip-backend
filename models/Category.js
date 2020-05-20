@@ -1,7 +1,7 @@
 const mongoose = require('../db/connection');
 
 const CategorySchema = new mongoose.Schema({
-	title: String
+	title: String,
 });
 
 const Category = mongoose.model('Category', CategorySchema);

@@ -2,6 +2,11 @@ const url = 'http://localhost:8080/api/user';
 const users = require('./users.json');
 const fetch = require('node-fetch');
 const User = require('../models/User');
+const Link = require('../models/Link');
+const Item = require('../models/Item');
+const Need = require('../models/Need');
+const Tier = require('../models/Tier');
+const Cycle = require('../models/Cycle');
 
 async function loadUsers() {
 	const userIds = users.map(async (user) => {
@@ -27,3 +32,9 @@ async function setUsers() {
 		.finally(process.exit);
 }
 setUsers();
+
+Tier.deleteMany().catch(console.error);
+Item.deleteMany().catch(console.error);
+Need.deleteMany().catch(console.error);
+Link.deleteMany().catch(console.error);
+Cycle.deleteMany().catch(console.error);

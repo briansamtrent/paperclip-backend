@@ -9,4 +9,10 @@ router.get('/', (req, res) => {
 	});
 });
 
+router.get('/:categoryName', (req, res) => {
+	Category.findOne({ title: req.params.categoryName }).then((categories) => {
+		res.json(categories);
+	});
+});
+
 module.exports = router;

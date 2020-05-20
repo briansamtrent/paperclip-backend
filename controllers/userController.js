@@ -6,8 +6,15 @@ const User = require('../models/User');
 const Tier = require('../models/Tier');
 
 router.get('/:id/tier', (req, res) => {
-	Tier.findOne({ user: req.params.id }).then((tiers) => {
+	Tier.find({ user: req.params.id }).then((tiers) => {
 		res.json(tiers);
+	});
+});
+
+router.get('/:userName/name', (req, res) => {
+	const userName = req.params.userName;
+	User.findOne({ userName: userName }).then((user) => {
+		res.json(user);
 	});
 });
 
@@ -17,9 +24,8 @@ router.get('/', (req, res) => {
 	});
 });
 
-router.get('/:userName', (req, res) => {
-	const userName = req.params.userName;
-	User.findOne({ userName: userName }).then((user) => {
+router.get('/:userId', (req, res) => {
+	User.findById(req.params.userId).then((user) => {
 		res.json(user);
 	});
 });

@@ -4,12 +4,16 @@ const LinkSchema = new mongoose.Schema({
 	item: {
 		ref: 'Item',
 		type: mongoose.Schema.Types.ObjectId,
-		autopopulate: true
+		autopopulate: true,
 	},
 	need: {
 		ref: 'Need',
 		type: mongoose.Schema.Types.ObjectId,
-		autopopulate: true
+		autopopulate: true,
+	},
+	cycle: {
+		ref: 'Cycle',
+		type: mongoose.Schema.Types.ObjectId,
 	},
 	confirmed: Number,
 });

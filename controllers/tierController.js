@@ -7,17 +7,18 @@ const Link = require('../models/Link');
 const Tier = require('../models/Tier');
 
 router.get('/:userId', (req, res) => {
-	Tier.findById(req.params.userId).then(tier => {
-		res.json(tier)
-	}) 
+	console.log(search.data.sayHi());
+	Tier.find({ user: req.params.userId }).then((tier) => {
+		res.json(tier);
+	});
 });
-
 
 router.post('/item/:id/:categoryId', (req, res) => {
 	const newItem = req.body;
 	newItem.tier = req.params.id;
 	newItem.category = req.params.categoryId;
 	let itemId;
+	console.log(req.body);
 	Item.create(newItem)
 		.then((created) => {
 			res.json(created); // get the new item id from this
@@ -37,17 +38,13 @@ router.post('/item/:id/:categoryId', (req, res) => {
 				})
 			);
 		});
-
-	// get every Need with the same category as the item
-
-	// create a pair object with the item Id and the Need Id
-	// where not existing already, create Link document with the item Id and the Need Id
 });
 
 router.post('/need/:id/:categoryId', (req, res) => {
 	const newNeed = req.body;
 	newNeed.tier = req.params.id;
 	newNeed.category = req.params.categoryId;
+	console.log(req.body);
 	let needId;
 	Need.create(newNeed)
 		.then((created) => {
@@ -68,10 +65,6 @@ router.post('/need/:id/:categoryId', (req, res) => {
 				})
 			);
 		});
-
-	// get every Item with the same category as the Need
-	// create a pair object with the item Id and the Need Id
-	// where not existing already, create Link document with the item Id and the Need Id
 });
 
 router.delete('/:id', (req, res, next) => {
