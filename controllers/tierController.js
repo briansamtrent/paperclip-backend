@@ -18,7 +18,6 @@ router.post('/item/:id/:categoryId', (req, res) => {
 	newItem.tier = req.params.id;
 	newItem.category = req.params.categoryId;
 	let itemId;
-	console.log(req.body);
 	Item.create(newItem)
 		.then((created) => {
 			res.json(created); // get the new item id from this
@@ -44,7 +43,7 @@ router.post('/need/:id/:categoryId', (req, res) => {
 	const newNeed = req.body;
 	newNeed.tier = req.params.id;
 	newNeed.category = req.params.categoryId;
-	console.log(req.body);
+	// console.log(req.body);
 	let needId;
 	Need.create(newNeed)
 		.then((created) => {
@@ -74,5 +73,6 @@ router.delete('/:id', (req, res, next) => {
 		})
 		.catch(next);
 });
+
 
 module.exports = router;

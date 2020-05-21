@@ -14,7 +14,7 @@ async function confirmLinks(linksArray) {
 				},
 				body: JSON.stringify({ confirmation: 1 }),
 			}).catch((err) => console.log(err));
-		}, Math.random() * 1000 * (linksArray.length / 2));
+		}, Math.random() * 1000 * (linksArray.length / 5));
 	});
 
 	return Promise.all(await confirmedLinks);
@@ -31,9 +31,9 @@ async function kickIt() {
 	const linksArray = await links.json();
 
 	await confirmLinks(linksArray);
-	setTimeout(() => {
-		process.exit();
-	}, 1000 * (linksArray.length / 1.5));
+	// setTimeout(() => {
+	// 	process.exit();
+	// }, 1000 * (linksArray.length / 10));
 	// process.exit();
 }
 
