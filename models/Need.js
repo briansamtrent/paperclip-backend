@@ -1,7 +1,11 @@
 const mongoose = require('../db/connection');
 
 const NeedSchema = new mongoose.Schema({
-	category: { ref: 'Category', type: mongoose.Schema.Types.ObjectId },
+	category: {
+		ref: 'Category',
+		type: mongoose.Schema.Types.ObjectId,
+		autopopulate: true,
+	},
 	tier: {
 		ref: 'Tier',
 		type: mongoose.Schema.Types.ObjectId,

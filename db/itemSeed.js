@@ -10,65 +10,63 @@ const Item = require('../models/Item');
 async function gatherItems() {
 	// first go through each tier upload and insert the userId
 	const itemData = items.map(async (item) => {
-		let newItem = {};
-		const catResponse = await fetch(
-			categoryUrl + '/' + item.category
-		).catch((err) => console.log(err));
-		newItem.categoryId = (await catResponse.json())._id;
+		setTimeout(async () => {
+			let newItem = {};
+			const catResponse = await fetch(
+				categoryUrl + '/' + item.category
+			).catch((err) => console.log(err));
+			newItem.categoryId = (await catResponse.json())._id;
 
-		const userResponse = await fetch(
-			userUrl + '/' + item.userName + '/name'
-		).catch((err) => console.log(err));
-		newItem.userId = (await userResponse.json())._id;
+			const userResponse = await fetch(
+				userUrl + '/' + item.userName + '/name'
+			).catch((err) => console.log(err));
+			newItem.userId = (await userResponse.json())._id;
 
-		const tierResponse = await Tier.findOne({
-			user: newItem.userId,
-			rank: item.rank,
-		}).catch((err) => console.log(err));
-		newItem.tierId = await tierResponse._id;
+			const tierResponse = await Tier.findOne({
+				user: newItem.userId,
+				rank: item.rank,
+			}).catch((err) => console.log(err));
+			newItem.tierId = await tierResponse._id;
 
-		newItem.picture = item.picture;
-		newItem.description = item.description;
+			newItem.picture = item.picture;
+			newItem.description = item.description;
 
-		// console.log(items);
-		return newItem;
+			let el = newItem;
+
+			let body = {
+				picture: el.picture,
+				description: el.description,
+			};
+			let loadItemUrl = `${tierUrl}/item/${el.tierId}/${el.categoryId}`;
+			// console.log(loadItemUrl);
+			let bodyJSON = JSON.stringify(body);
+			fetch(loadItemUrl, {
+				method: 'POST',
+				headers: {
+					'Content-type': 'application/json; charset=UTF-8',
+				},
+				body: bodyJSON,
+			})
+				.then((response) => response.json())
+				.catch((err) => console.log(err));
+		}, Math.random() * 20000);
 	});
+
 	return await Promise.all(itemData);
-}
-
-function loadItems(data) {
-	data.forEach((el) => {
-		let body = {
-			picture: el.picture,
-			description: el.description,
-		};
-		let loadItemUrl = `${tierUrl}/item/${el.tierId}/${el.categoryId}`;
-		// console.log(loadItemUrl);
-		let bodyJSON = JSON.stringify(body);
-		fetch(loadItemUrl, {
-			method: 'POST',
-			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-			},
-			body: bodyJSON,
-		})
-			.then((response) => response.json())
-			.then((data) => console.log(data))
-			.catch((err) => console.log(err));
-	});
 }
 
 async function setItems() {
 	Item.deleteMany()
-		.then(await loadItems(await gatherItems()))
-		.then(console.log)
+		.then(await gatherItems())
+		// .then(await loadItems(await gatherItems()))
+		// .then(console.log)
 		.catch(console.error);
 	// .finally(process.exit);
 }
 
 setItems();
 
-setTimeout(() => {
-	process.exit();
-}, 1000);
+// setTimeout(() => {
+// 	process.exit();
+// }, 1000);
 // setItems();

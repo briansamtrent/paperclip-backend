@@ -74,6 +74,12 @@ router.patch('/:linkId/confirm', async (req, res) => {
 	}
 });
 
+router.get('/:linkId', async (req, res) => {
+	Link.findById(req.params.linkId).then((allLinks) => {
+		res.json(allLinks);
+	});
+});
+
 router.get('/', (req, res) => {
 	Link.find().then((allLinks) => {
 		res.json(allLinks);

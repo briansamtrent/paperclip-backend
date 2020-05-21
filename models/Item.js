@@ -6,6 +6,7 @@ const ItemSchema = new mongoose.Schema({
 	category: {
 		ref: 'Category',
 		type: mongoose.Schema.Types.ObjectId,
+		autopopulate: true,
 	},
 	tier: {
 		ref: 'Tier',

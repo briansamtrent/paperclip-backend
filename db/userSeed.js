@@ -10,14 +10,16 @@ const Cycle = require('../models/Cycle');
 
 async function loadUsers() {
 	const userIds = users.map(async (user) => {
-		const response = await fetch(url, {
-			method: 'POST',
-			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-			},
-			body: JSON.stringify(user),
-		}).catch((err) => console.log(err));
-		return response.json();
+		setTimeout(async () => {
+			const response = await fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-type': 'application/json; charset=UTF-8',
+				},
+				body: JSON.stringify(user),
+			}).catch((err) => console.log(err));
+			return response.json();
+		}, Math.random() * 3000);
 	});
 	return await Promise.all(userIds);
 }
@@ -25,11 +27,12 @@ async function setUsers() {
 	User.deleteMany()
 		.then(async () => {
 			console.log('Users Deleted');
-			console.log(await loadUsers());
+			await loadUsers();
+			// console.log(await loadUsers());
 		})
 		.then(console.log)
-		.catch(console.error)
-		.finally(process.exit);
+		.catch(console.error);
+	// .finally(process.exit);
 }
 setUsers();
 
