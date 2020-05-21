@@ -1,7 +1,7 @@
 const userUrl = 'http://localhost:8080/api/user';
 const fetch = require('node-fetch');
 
-const Link = require('../models/Link');
+const Link = require('../../models/Link');
 
 async function confirmLinks(linksArray) {
 	const confirmedLinks = await linksArray.map((link) => {

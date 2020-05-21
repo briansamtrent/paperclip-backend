@@ -7,7 +7,6 @@ const Link = require('../models/Link');
 const Tier = require('../models/Tier');
 
 router.get('/:userId', (req, res) => {
-	console.log(search.data.sayHi());
 	Tier.find({ user: req.params.userId }).then((tier) => {
 		res.json(tier);
 	});
@@ -65,14 +64,5 @@ router.post('/need/:id/:categoryId', (req, res) => {
 			);
 		});
 });
-
-router.delete('/:id', (req, res, next) => {
-	User.findOneAndDelete({ _id: req.params.id })
-		.then((users) => {
-			res.json(users);
-		})
-		.catch(next);
-});
-
 
 module.exports = router;

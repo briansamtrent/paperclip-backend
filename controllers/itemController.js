@@ -27,12 +27,6 @@ router.get('/:userId/cycle', (req, res) => {
 	});
 });
 
-router.get('/', (req, res) => {
-	Item.find().then((allItems) => {
-		res.json(allItems);
-	});
-});
-
 router.delete('/:id', (req, res, next) => {
 	Item.findOneAndDelete({ _id: req.params.id })
 		.then((items) => {

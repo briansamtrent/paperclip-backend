@@ -2,7 +2,7 @@ const userUrl = 'http://localhost:8080/api/user';
 const tiers = require('./tiers.json');
 const fetch = require('node-fetch');
 
-const Tier = require('../models/Tier');
+const Tier = require('../../models/Tier');
 
 async function loadTiers() {
 	// first go through each tier upload and insert the userId

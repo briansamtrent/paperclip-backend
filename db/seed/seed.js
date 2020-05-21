@@ -1,4 +1,4 @@
-const Category = require('../models/Category');
+const Category = require('../../models/Category');
 // Require the data
 const seedData = require('./categories.json');
 

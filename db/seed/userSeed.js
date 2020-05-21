@@ -1,12 +1,12 @@
 const url = 'http://localhost:8080/api/user';
 const users = require('./users.json');
 const fetch = require('node-fetch');
-const User = require('../models/User');
-const Link = require('../models/Link');
-const Item = require('../models/Item');
-const Need = require('../models/Need');
-const Tier = require('../models/Tier');
-const Cycle = require('../models/Cycle');
+const User = require('../../models/User');
+const Link = require('../../models/Link');
+const Item = require('../../models/Item');
+const Need = require('../../models/Need');
+const Tier = require('../../models/Tier');
+const Cycle = require('../../models/Cycle');
 
 async function loadUsers() {
 	const userIds = users.map(async (user) => {
