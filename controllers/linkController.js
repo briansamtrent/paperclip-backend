@@ -10,11 +10,11 @@ var search = require('./cycleSearch.js');
 const express = require('express');
 const router = express.Router();
 
-router.get('/unconfirmed', async (req, res) => {
-	Link.find({ confirmed: 0 }).then((allLinks) => {
-		res.json(allLinks);
-	});
-});
+// router.get('/unconfirmed', async (req, res) => {
+// 	Link.find({ confirmed: 0 }).then((allLinks) => {
+// 		res.json(allLinks);
+// 	});
+// });
 
 router.get('/:userId/unconfirmed', async (req, res) => {
 	const tiers = await Tier.find({ user: req.params.userId }).catch(
@@ -74,16 +74,16 @@ router.patch('/:linkId/confirm', async (req, res) => {
 	}
 });
 
-router.get('/:linkId', async (req, res) => {
-	Link.findById(req.params.linkId).then((allLinks) => {
-		res.json(allLinks);
-	});
-});
+// router.get('/:linkId', async (req, res) => {
+// 	Link.findById(req.params.linkId).then((allLinks) => {
+// 		res.json(allLinks);
+// 	});
+// });
 
-router.get('/', (req, res) => {
-	Link.find().then((allLinks) => {
-		res.json(allLinks);
-	});
-});
+// router.get('/', (req, res) => {
+// 	Link.find().then((allLinks) => {
+// 		res.json(allLinks);
+// 	});
+// });
 
 module.exports = router;

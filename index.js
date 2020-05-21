@@ -28,6 +28,10 @@ app.use('/api/link', linkController);
 const cycleController = require('./controllers/cycleController');
 app.use('/api/cycle', cycleController);
 
+app.use('*', function (req, res) {
+	res.redirect('/api/cycle');
+});
+
 app.set('port', process.env.PORT || 8080);
 
 app.listen(app.get('port'), () => {

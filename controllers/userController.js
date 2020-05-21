@@ -32,35 +32,18 @@ router.get('/:userId', (req, res) => {
 
 router.post('/', (req, res) => {
 	const newUser = req.body;
-	User.create(newUser).then((created) => {
-		res.json(created);
-	});
-});
-
-router.post('/:id/tier', (req, res) => {
-	User.findById(req.params.id).then((user) => {
-		const newTier = req.body;
-		newTier.user = req.params.id;
-		Tier.create(newTier).then((created) => {
+	User.create(newUser)
+		.then((created) => {
 			res.json(created);
-		});
-	});
-});
-
-router.post('/:id/', (req, res) => {
-	const newTier = req.body;
-	newTier.user = req.params.id;
-	Tier.create(newTier).then((created) => {
-		res.json(created);
-	});
-});
-
-router.delete('/:id', (req, res, next) => {
-	User.findOneAndDelete({ _id: req.params.id })
-		.then((users) => {
-			res.json(users);
+			return created;
 		})
-		.catch(next);
+		.then((newUserData) => {
+			for (let i = 1; i <= 3; i++) {
+				let newTier = { rank: i };
+				newTier.user = newUserData._id;
+				Tier.create(newTier);
+			}
+		});
 });
 
 module.exports = router;

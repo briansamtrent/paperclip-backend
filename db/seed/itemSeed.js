@@ -1,11 +1,11 @@
 const userUrl = 'http://localhost:8080/api/user';
 const categoryUrl = 'http://localhost:8080/api/category';
 const tierUrl = 'http://localhost:8080/api/tier';
-const items = require('./needs.json');
+const items = require('./items.json');
 const fetch = require('node-fetch');
 
-const Tier = require('../models/Tier');
-const Need = require('../models/Need');
+const Tier = require('../../models/Tier');
+const Item = require('../../models/Item');
 
 async function gatherItems() {
 	// first go through each tier upload and insert the userId
@@ -33,13 +33,19 @@ async function gatherItems() {
 
 			let el = newItem;
 
-			let loadItemUrl = `${tierUrl}/need/${el.tierId}/${el.categoryId}`;
+			let body = {
+				picture: el.picture,
+				description: el.description,
+			};
+			let loadItemUrl = `${tierUrl}/item/${el.tierId}/${el.categoryId}`;
 			// console.log(loadItemUrl);
+			let bodyJSON = JSON.stringify(body);
 			fetch(loadItemUrl, {
 				method: 'POST',
 				headers: {
 					'Content-type': 'application/json; charset=UTF-8',
 				},
+				body: bodyJSON,
 			})
 				.then((response) => response.json())
 				.catch((err) => console.log(err));
@@ -50,7 +56,7 @@ async function gatherItems() {
 }
 
 async function setItems() {
-	Need.deleteMany()
+	Item.deleteMany()
 		.then(await gatherItems())
 		// .then(await loadItems(await gatherItems()))
 		// .then(console.log)
