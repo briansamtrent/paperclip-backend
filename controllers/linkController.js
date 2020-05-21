@@ -10,19 +10,40 @@ var search = require('./cycleSearch.js');
 const express = require('express');
 const router = express.Router();
 
-// router.get('/unconfirmed', async (req, res) => {
-// 	Link.find({ confirmed: 0 }).then((allLinks) => {
-// 		res.json(allLinks);
-// 	});
-// });
+router.get('/unconfirmed', async (req, res) => {
+	Link.find({ confirmed: 0 }).then((allLinks) => {
+		res.json(allLinks);
+	});
+});
 
 router.get('/:userId/unconfirmed', async (req, res) => {
 	const tiers = await Tier.find({ user: req.params.userId }).catch(
 		console.error
 	);
 	const needs = await Need.find({ tier: { $in: tiers } }).catch(console.error);
-	Link.find({ confirmed: 0, need: { $in: needs } }).then((allLinks) => {
-		res.json(allLinks);
+	Link.find({ cycle: { $exists: true } }).then((allLinks) => {
+		console.log(allLinks);
+		// res.json(allLinks);
+	});
+});
+
+router.get('/:userId/cycle', async (req, res) => {
+	Tier.find({ user: req.params.userId }).then(async (allLinks) => {
+		const userTiers = await allLinks.map((link) => link._id);
+		Item.find({ tier: { $in: userTiers } }).then(async (allItems) => {
+			// console.log(allItems);
+			const userCycledItems = await allItems.filter((item) => {
+				return item.cycle;
+			});
+			const userCycles = await userCycledItems.map((item) => {
+				return item.cycle;
+			});
+			Link.find({ cycle: { $in: userCycles } }).then((allLinks) => {
+				res.json(
+					allLinks.filter((link) => link.item.tier.user == req.params.userId)
+				);
+			});
+		});
 	});
 });
 
@@ -74,11 +95,11 @@ router.patch('/:linkId/confirm', async (req, res) => {
 	}
 });
 
-// router.get('/:linkId', async (req, res) => {
-// 	Link.findById(req.params.linkId).then((allLinks) => {
-// 		res.json(allLinks);
-// 	});
-// });
+router.get('/:linkId', async (req, res) => {
+	Link.findById(req.params.linkId).then((allLinks) => {
+		res.json(allLinks);
+	});
+});
 
 // router.get('/', (req, res) => {
 // 	Link.find().then((allLinks) => {
