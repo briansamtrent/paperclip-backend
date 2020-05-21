@@ -16,6 +16,7 @@ async function gatherItems() {
 				categoryUrl + '/' + item.category
 			).catch((err) => console.log(err));
 			newItem.categoryId = (await catResponse.json())._id;
+			// console.log(newItem);
 
 			const userResponse = await fetch(
 				userUrl + '/' + item.userName + '/name'

@@ -7,6 +7,8 @@ const Tier = require('../models/Tier');
 
 router.get('/:userId', (req, res) => {
 	User.findById(req.params.userId).then((user) => {
+		console.log(req.params.userId);
+		console.log(user);
 		Tier.find({ user: user._id }).then((tiers) => {
 			Item.find({ tier: { $in: tiers }, cycle: undefined }).then((items) => {
 				res.json(items);
