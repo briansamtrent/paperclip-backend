@@ -31,6 +31,7 @@ router.delete('/:id', (req, res, next) => {
 	Need.findOneAndDelete({ _id: req.params.id })
 		.then((needs) => {
 			res.json(needs);
+			Link.deleteMany({ need: null }).catch(next);
 		})
 		.catch(next);
 });

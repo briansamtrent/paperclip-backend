@@ -33,6 +33,7 @@ router.delete('/:id', (req, res, next) => {
 	Item.findOneAndDelete({ _id: req.params.id })
 		.then((items) => {
 			res.json(items);
+			Link.deleteMany({ item: null }).catch(next);
 		})
 		.catch(next);
 });
