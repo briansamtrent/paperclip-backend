@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const mongoURI =
 	process.env.NODE_ENV === 'production'
 		? process.env.MONGODB_URI
-		: 'mongodb://localhost/paperclip';
+		: 'mongodb+srv://Paperclip:7Ngbw44ChZhYbxOw@paperclip-ubfh6.mongodb.net/paperclip?retryWrites=true&w=majority';
 
 mongoose
 	.connect(mongoURI, {
