@@ -21,9 +21,9 @@ router.get('/:userId/unconfirmed', async (req, res) => {
 		console.error
 	);
 	const needs = await Need.find({ tier: { $in: tiers } }).catch(console.error);
-	Link.find({ cycle: { $exists: true } }).then((allLinks) => {
-		console.log(allLinks);
-		// res.json(allLinks);
+	Link.find({ confirmed: 0, need: { $in: needs } }).then((allLinks) => {
+		// console.log(allLinks);
+		res.json(allLinks);
 	});
 });
 
@@ -101,10 +101,10 @@ router.get('/:linkId', async (req, res) => {
 	});
 });
 
-// router.get('/', (req, res) => {
-// 	Link.find().then((allLinks) => {
-// 		res.json(allLinks);
-// 	});
-// });
+router.get('/', (req, res) => {
+	Link.find().then((allLinks) => {
+		res.json(allLinks);
+	});
+});
 
 module.exports = router;
