@@ -42,7 +42,6 @@ router.post('/need/:id/:categoryId', (req, res) => {
 	const newNeed = req.body;
 	newNeed.tier = req.params.id;
 	newNeed.category = req.params.categoryId;
-	// console.log(req.body);
 	let needId;
 	Need.create(newNeed)
 		.then((created) => {
