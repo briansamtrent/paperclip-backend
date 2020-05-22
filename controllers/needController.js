@@ -4,6 +4,7 @@ const router = express.Router();
 const Need = require('../models/Need');
 const User = require('../models/User');
 const Tier = require('../models/Tier');
+const Link = require('../models/Link');
 
 router.get('/:userId', (req, res) => {
 	User.findById(req.params.userId).then((user) => {
