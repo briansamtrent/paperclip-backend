@@ -11,9 +11,11 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/unconfirmed', async (req, res) => {
-	Link.find({ confirmed: 0 }).then((allLinks) => {
-		res.json(allLinks);
-	});
+	Link.find({ confirmed: 0 })
+		.limit(1)
+		.then((allLinks) => {
+			res.json(allLinks);
+		});
 });
 
 router.get('/:userId/unconfirmed', async (req, res) => {

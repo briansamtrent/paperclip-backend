@@ -14,7 +14,7 @@ async function confirmLinks(linksArray) {
 				},
 				body: JSON.stringify({ confirmation: 1 }),
 			}).catch((err) => console.log(err));
-		}, Math.random() * 1000 * (linksArray.length / 5));
+		}, Math.random() * 1000 * linksArray.length);
 	});
 
 	return Promise.all(await confirmedLinks);

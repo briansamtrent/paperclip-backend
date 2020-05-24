@@ -31,10 +31,10 @@ router.get('/:userId/cycle', (req, res) => {
 });
 
 router.delete('/:id', (req, res, next) => {
+	Link.deleteMany({ item: req.params.id }).catch(next);
 	Item.findOneAndDelete({ _id: req.params.id })
 		.then((items) => {
 			res.json(items);
-			Link.deleteMany({ item: null }).catch(next);
 		})
 		.catch(next);
 });
