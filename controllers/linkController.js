@@ -18,6 +18,32 @@ router.get('/unconfirmed', async (req, res) => {
 		});
 });
 
+router.get('/:userId/oneUnconfirmed', async (req, res) => {
+	const tiers = await Tier.find({ user: req.params.userId }).catch(
+		console.error
+	);
+	const needs = await Need.find({ tier: { $in: tiers } }).catch(console.error);
+	Link.findOne({ confirmed: 0, need: { $in: needs } }).then((allLinks) => {
+		// console.log(allLinks);
+		res.json(allLinks);
+	});
+});
+
+router.get('/:userId/confirmed', async (req, res) => {
+	const tiers = await Tier.find({ user: req.params.userId }).catch(
+		console.error
+	);
+	const needs = await Need.find({ tier: { $in: tiers } }).catch(console.error);
+	Link.find({
+		confirmed: 1,
+		need: { $in: needs },
+		cycle: undefined,
+	}).then((allLinks) => {
+		// console.log(allLinks);
+		res.json(allLinks);
+	});
+});
+
 router.get('/:userId/unconfirmed', async (req, res) => {
 	const tiers = await Tier.find({ user: req.params.userId }).catch(
 		console.error
